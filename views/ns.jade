@@ -1,0 +1,84 @@
+extends layout
+
+block header_scripts
+  script(src="javascripts/mbox.js")
+
+block body_scripts
+  script(src='javascripts/jquery.js')
+  script
+    (function() {
+      var lfh = document.createElement('script'); lfh.type = 'text/javascript'; lfh.async = true;
+      lfh.src = 'js/tnt.js'+window.location.search;
+      var s = document.getElementsByTagName('head')[0]; s.appendChild(lfh);
+    })();
+  
+  
+block header
+  header.row
+    .two.columns
+      img(src='/images/logo_netsuite.gif')
+    .eight.columns
+    .two.columns
+      br 
+      form
+        input#search-field.input-text(type='text',placeholder='Search..')
+
+block tabs
+  .row
+    .twelve.columns
+      dl.tabs
+        dd
+          a(href="#",class="active") Products
+        dd
+          a(href="#") Customers
+        dd
+          a(href="#") Industries
+        dd
+          a(href="#") Solutions
+        dd
+          a(href="#") Platform
+        dd
+          a(href="#") Resources
+        dd
+          a(href="#") Company
+
+block main
+  .row
+    article#main.eight.columns
+      #lfx_div.mboxDefault.lfx_tt(name="leadformix_test")
+        
+      h3
+        a(href="#") Cloud ERP That Reaches Across the Enterprise
+      p 
+        | Your enterprise is moving fast — adding more subsidiaries, 
+        | more acquisitions, more geographies. But corporate Oracle 
+        | or SAP deployments make it impossible for your IT department 
+        | to keep pace. The result: fragmented ERP that limits visibility 
+        | slows financial consolidation, and increases compliance and
+        |  reporting risk
+    .four.columns
+      .row
+        article#detail.four.columns
+          .mboxDefault#optional_info
+            img(src='images/120x100.gif')
+          script
+            mboxCreate('leadformix_test1');
+
+        .eight.columns  
+          h5
+            a(href="#") Download your strategy kit
+              p 
+                | Learn how to tap Cloud ERP in your enterprise
+      .row
+        article#detail.four.columns
+          .mboxDefault#optional_info
+            img(src='images/120x100.gif')
+          script
+            mboxCreate('leadformix_test2');
+
+        .eight.columns  
+          h5
+            a(href="#") Case Study
+              p 
+                | Fast-food giant Jollibee uses NetSuite OneWorld 
+                | to support expansion in Asia and North America.

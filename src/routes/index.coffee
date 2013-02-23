@@ -1,7 +1,7 @@
 log = require("../log")
 exports.index = (req, res) ->
   log.info "process doc root request"
-  res.render "index",
+  res.render "ns",
     title: "Sub Simple Server"
 
 
