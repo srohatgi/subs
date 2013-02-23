@@ -1,11 +1,6 @@
 
-lib/app.js
-
-lib/ctrl.js
-
-lib/log.js
-
-lib/routes/index.js
+lib/*.js
+lib/**/*.js
 
 node_modules/*
 
