@@ -23,25 +23,27 @@ app.use (req, res, next) ->
   else
     next()
 
+console.log "hello: #{path.join(__dirname, "..", "views")}"
 app.configure ->
-  app.set "views", path.join(__dirname, "views")
+  app.set "views", path.join(__dirname, "..", "views")
   app.set "view engine", "jade"
   app.set "view options",
     layout: false
 
-  app.use express.favicon(path.join(__dirname, "public", "images", "favicon.ico"))
+  app.use express.favicon(path.join(__dirname, "..", "public", "images", "favicon.ico"))
   app.use express.logger("dev")
   app.use express.bodyParser()
   app.use express.methodOverride()
   app.use app.router
-  app.use express.static(path.join(__dirname, "public"))
+  app.use express.static(path.join(__dirname, "..", "public"))
 
 app.configure "development", ->
   app.use express.errorHandler()
 
+log.info "hello: #{path.join(__dirname, "..", "views")}"
+
 app.get "/", routes.index
 app.get "/flower", routes.flower
-app.get "/js/tnt.js", require("./routes/tnt")
 
 app.listen port
 
