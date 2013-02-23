@@ -4,7 +4,7 @@ http = require("http")
 https = require("https")
 fs = require("fs")
 path = require("path")
-log = require("./log")
+{log} = require("./log")
 
 app = express.createServer(
   key: fs.readFileSync("#{__dirname}/../cert/server.key", "utf-8")
@@ -23,7 +23,6 @@ app.use (req, res, next) ->
   else
     next()
 
-console.log "hello: #{path.join(__dirname, "..", "views")}"
 app.configure ->
   app.set "views", path.join(__dirname, "..", "views")
   app.set "view engine", "jade"
@@ -39,8 +38,6 @@ app.configure ->
 
 app.configure "development", ->
   app.use express.errorHandler()
-
-log.info "hello: #{path.join(__dirname, "..", "views")}"
 
 app.get "/", routes.index
 app.get "/flower", routes.flower
