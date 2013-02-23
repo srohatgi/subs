@@ -1,6 +1,6 @@
 winston = require("winston")
 conf =
-  filename: __dirname + "/../run/lfx.log"
+  filename: __dirname + "/../subs.log"
   handleExceptions: true
   json: false
   level: "info"
