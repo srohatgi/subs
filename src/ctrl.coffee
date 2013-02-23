@@ -1,7 +1,7 @@
 daemon = require("daemonize2").setup(
   main: "app.js"
   name: "subs"
-  pidfile: __dirname + "/../run/subs.pid"
+  pidfile: __dirname + "/../subs.pid"
 )
 switch process.argv[2]
   when "start"
