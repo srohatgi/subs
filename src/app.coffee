@@ -40,12 +40,13 @@ app.configure "development", ->
 app.get "/", routes.index
 app.get "/flower", routes.flower
 
-server = https.createServer 
+https.createServer(
   key: fs.readFileSync "#{__dirname}/../cert/server.key", 'utf-8'
   cert: fs.readFileSync "#{__dirname}/../cert/server.crt", 'utf-8'
-, app
+, app)
+.listen config.port.secure
 
-server.listen config.port.secure
+#server.listen config.port.secure
 
 # redirect all unsecure requests to https
 http.createServer (req,res)->
