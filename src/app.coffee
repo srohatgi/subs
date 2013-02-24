@@ -44,4 +44,4 @@ app.get "/flower", routes.flower
 
 app.listen port
 
-log.info "subsimple https server listening on port " + port
+log.info "subsimple https server listening on port #{port}"
