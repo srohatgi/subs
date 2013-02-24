@@ -4,13 +4,15 @@ fs = require 'fs'
 rundir = process.argv[2] if process.argv.length > 2
 watchmode = !rundir
 
+config = eval '('+fs.readFileSync("#{__dirname}/config.json",'utf-8')+')'
+
 transports = []
 accesslog_stream = process.stdout
 
 if watchmode
   transports.push new (winston.transports.Console)(
     level: 'info'
-    colorize: true
+    colorize: true  
     timestamp: true
   )
 else
@@ -31,7 +33,7 @@ applogger = new (winston.Logger)(
 
 log = 
   ip: (req)-> req.headers?["x-forwarded-for"] || req.connection?.remoteAddress
-  accesslog_stream: accesslog_stream
+  accesslog: if watchmode then "dev" else { format: 'default', stream: accesslog_stream }
   format_msg: (req,msg)-> "[url:#{req.url}] [pid:#{process.pid}] [ip:#{@ip req}] [msg:#{msg}]"
   reqInfo: (req,msg)->
     @info @format_msg(req,msg)
@@ -44,3 +46,4 @@ applogger.extend log
 
 exports.log = log
 exports.watchmode = watchmode
+exports.config = config

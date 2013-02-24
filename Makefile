@@ -1,4 +1,5 @@
 tgt = $(patsubst src/%.coffee,lib/%.js,$(wildcard src/*.coffee src/**/*.coffee))
+tgt += $(patsubst src/%.json,lib/%.json,$(wildcard src/*.json src/**/*.json))
 
 all: node_modules $(tgt)
 
@@ -14,3 +15,7 @@ clean:
 
 lib/%.js: src/%.coffee
 	coffee -o $(dir $@) $<
+
+lib/%.json: src/%.json
+	mkdir -p $(dir $@)
+	cp $< $@
