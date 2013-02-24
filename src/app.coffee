@@ -42,6 +42,14 @@ app.configure "development", ->
 app.get "/", routes.index
 app.get "/flower", routes.flower
 
-app.listen port
+sport = parseInt(port) + 1
 
-log.info "subsimple https server listening on port #{port}"
+app.listen sport
+
+# redirect all unsecure requests to https
+http.createServer (req,res)->
+  res.writeHead 301, {'Location': "https://#{req.headers.host.split(':')[0]}:#{sport}#{req.url}"}
+  res.end()
+.listen port
+
+log.info "subsimple https server listening on ports #{port}, #{sport}"
