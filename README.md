@@ -6,7 +6,7 @@ In your development box:
   
     $ cd subs
     $ make
-    $ nodemon -e '.coffee|.jade' lib/
+    $ nodemon -e '.coffee|.jade' lib/dev.js
   
 ## Configuring
 
