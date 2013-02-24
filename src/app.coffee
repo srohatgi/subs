@@ -6,8 +6,7 @@ fs = require("fs")
 path = require("path")
 passport = require('passport')
 FacebookStrategy = require('passport-facebook').Strategy;
-{log} = require("./log")
-{config} = require("./log")
+{log,config} = require("./appconfig")
 
 app = express()
 

@@ -1,4 +1,4 @@
-{log} = require("../log")
+{log} = require("../appconfig")
 
 exports.index = (req, res) ->
   log.reqInfo req,"process doc root request"
