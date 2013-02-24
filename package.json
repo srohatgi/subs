@@ -6,11 +6,13 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "2.4.3",
+    "express": "3.x",
     "jade": "0.27.2",
     "daemonize2": "0.4.0-rc.5",
     "winston": "0.6.2",
-    "kexec": "latest"
+    "kexec": "latest",
+    "passport": "latest",
+    "passport-facebook": "latest"
   },
   "engines": {
     "node": "0.8.2",

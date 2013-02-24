@@ -4,12 +4,11 @@ http = require("http")
 https = require("https")
 fs = require("fs")
 path = require("path")
+passport = require('passport')
+FacebookStrategy = require('passport-facebook').Strategy;
 {log} = require("./log")
 
-app = express.createServer(
-  key: fs.readFileSync("#{__dirname}/../cert/server.key", "utf-8")
-  cert: fs.readFileSync("#{__dirname}/../cert/server.crt", "utf-8")
-)
+app = express()
 
 port = process.env.PORT or 3000
 
@@ -30,7 +29,7 @@ app.configure ->
     layout: false
 
   app.use express.favicon(path.join(__dirname, "..", "public", "images", "favicon.ico"))
-  app.use express.logger("dev")
+  app.use express.logger({ format: 'default', stream: log.accesslog_stream })
   app.use express.bodyParser()
   app.use express.methodOverride()
   app.use app.router
@@ -42,9 +41,14 @@ app.configure "development", ->
 app.get "/", routes.index
 app.get "/flower", routes.flower
 
+server = https.createServer 
+  key: fs.readFileSync "#{__dirname}/../cert/server.key", 'utf-8'
+  cert: fs.readFileSync "#{__dirname}/../cert/server.crt", 'utf-8'
+, app
+
 sport = parseInt(port) + 1
 
-app.listen sport
+server.listen sport
 
 # redirect all unsecure requests to https
 http.createServer (req,res)->
