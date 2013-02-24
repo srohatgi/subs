@@ -7,7 +7,7 @@ watchmode = !rundir
 config = eval '('+fs.readFileSync("#{__dirname}/config.json",'utf-8')+')'
 
 transports = []
-accesslog_stream = process.stdout
+accesslog = "dev"
 
 if watchmode
   transports.push new (winston.transports.Console)(
@@ -24,7 +24,7 @@ else
     level: 'info'
     timestamp: true
   )
-  accesslog_stream = fs.createWriteStream("#{rundir}/access.log", {flags: 'a', encoding: 'utf-8', mode: 0o644})
+  accesslog = { format: 'default', stream: fs.createWriteStream("#{rundir}/access.log", {flags: 'a', encoding: 'utf-8', mode: 0o644})}
 
 applogger = new (winston.Logger)(
   exitOnError: false
@@ -33,7 +33,7 @@ applogger = new (winston.Logger)(
 
 log = 
   ip: (req)-> req.headers?["x-forwarded-for"] || req.connection?.remoteAddress
-  accesslog: if watchmode then "dev" else { format: 'default', stream: accesslog_stream }
+  accesslog: accesslog
   format_msg: (req,msg)-> "[url:#{req.url}] [pid:#{process.pid}] [ip:#{@ip req}] [msg:#{msg}]"
   reqInfo: (req,msg)->
     @info @format_msg(req,msg)
