@@ -46,12 +46,10 @@ https.createServer(
 , app)
 .listen config.port.secure
 
-#server.listen config.port.secure
-
 # redirect all unsecure requests to https
 http.createServer (req,res)->
   res.writeHead 301, {'Location': "https://#{req.headers.host.split(':')[0]}:#{sport}#{req.url}"}
   res.end()
 .listen config.port.unsecure
 
-log.info "subsimple https server listening on ports #{config.port.unsecure}, #{config.port.secure}"
+log.info "subsimple http server listening on ports #{config.port.unsecure}, #{config.port.secure}"
