@@ -1,0 +1,12 @@
+{
+  "name": "apps",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "uglify-js": "latest"  
+  },
+  "engines": {
+    "node": "0.8.2",
+    "npm": "1.1.36"
+  }
+}
