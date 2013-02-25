@@ -5,6 +5,7 @@ https = require("https")
 fs = require("fs")
 path = require("path")
 {log,config} = require("./appconfig")
+passport = require('passport')
 
 app = express()
 
@@ -19,17 +20,21 @@ app.use (req, res, next) ->
     next()
 
 app.configure ->
-  app.set "views", path.join(__dirname, "..", "views")
+  app.set "views", "#{__dirname}/../views"
   app.set "view engine", "jade"
   app.set "view options",
     layout: false
 
-  app.use express.favicon(path.join(__dirname, "..", "public", "images", "favicon.ico"))
+  app.use express.favicon "#{__dirname}/../public/images/favicon.ico"
   app.use express.logger log.accesslog
+  app.use express.cookieParser()
   app.use express.bodyParser()
   app.use express.methodOverride()
+  app.use express.session secret: 'keyboard cat'   
+  app.use passport.initialize()
+  app.use passport.session()
   app.use app.router
-  app.use express.static(path.join(__dirname, "..", "public"))
+  app.use express.static "#{__dirname}/../public"
 
 app.configure "development", ->
   app.use express.errorHandler()
@@ -37,35 +42,8 @@ app.configure "development", ->
 app.get "/", routes.index
 app.get "/flower", routes.flower
 
-# facebook stuff
-passport = require('passport')
-FacebookStrategy = require('passport-facebook').Strategy;
-
-passport.serializeUser (user, done)-> done(null, user)
-
-passport.deserializeUser (obj, done)-> done(null, obj)
-
-passport.use new FacebookStrategy(
-  clientID: config.facebook.id,
-  clientSecret: config.facebook.shared_secret,
-  callbackURL: "https://localhost:#{config.port.secure}/auth/facebook/callback"
-, (accessToken, refreshToken, profile, done)->
-  #User.findOrCreate(..., function(err, user) {
-  #  if (err) { return done(err); }
-  #  done(null, user);
-  #});
-  log.info "accessToken: #{accessToken} profile: #{JSON.stringify profile, null, 2}"
-  done null, profile
-)
-
-app.get '/auth/facebook', passport.authenticate('facebook')
-
-app.get '/auth/facebook/callback', passport.authenticate('facebook', 
-  successRedirect: '/' 
-  failureRedirect: '/'
-)
-
-# done facebook stuff
+# define login to the app
+routes.facebook_login(app)
 
 https.createServer(
   key: fs.readFileSync "#{__dirname}/../cert/server.key", 'utf-8'
@@ -75,7 +53,7 @@ https.createServer(
 
 # redirect all unsecure requests to https
 http.createServer (req,res)->
-  res.writeHead 301, {'Location': "https://#{req.headers.host.split(':')[0]}:#{sport}#{req.url}"}
+  res.writeHead 301, {'Location': "https://#{req.headers.host.split(':')[0]}:#{config.port.secure}#{req.url}"}
   res.end()
 .listen config.port.unsecure
 

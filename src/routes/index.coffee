@@ -9,3 +9,5 @@ exports.index = (req, res) ->
 exports.flower = (req, res) ->
   res.render "flower",
     title: "flower shop"
+
+exports.facebook_login = require('./login')
