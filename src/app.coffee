@@ -4,8 +4,6 @@ http = require("http")
 https = require("https")
 fs = require("fs")
 path = require("path")
-passport = require('passport')
-FacebookStrategy = require('passport-facebook').Strategy;
 {log,config} = require("./appconfig")
 
 app = express()
@@ -38,6 +36,36 @@ app.configure "development", ->
 
 app.get "/", routes.index
 app.get "/flower", routes.flower
+
+# facebook stuff
+passport = require('passport')
+FacebookStrategy = require('passport-facebook').Strategy;
+
+passport.serializeUser (user, done)-> done(null, user)
+
+passport.deserializeUser (obj, done)-> done(null, obj)
+
+passport.use new FacebookStrategy(
+  clientID: config.facebook.id,
+  clientSecret: config.facebook.shared_secret,
+  callbackURL: "https://localhost:#{config.port.secure}/auth/facebook/callback"
+, (accessToken, refreshToken, profile, done)->
+  #User.findOrCreate(..., function(err, user) {
+  #  if (err) { return done(err); }
+  #  done(null, user);
+  #});
+  log.info "accessToken: #{accessToken} profile: #{JSON.stringify profile, null, 2}"
+  done null, profile
+)
+
+app.get '/auth/facebook', passport.authenticate('facebook')
+
+app.get '/auth/facebook/callback', passport.authenticate('facebook', 
+  successRedirect: '/' 
+  failureRedirect: '/'
+)
+
+# done facebook stuff
 
 https.createServer(
   key: fs.readFileSync "#{__dirname}/../cert/server.key", 'utf-8'
