@@ -17,14 +17,15 @@ if watchmode
   )
 else
   applog = "#{rundir}/subs.log"
+  flags = flags: 'a', encoding: 'utf-8', mode: 0o644
   transports.push new (winston.transports.File)(
-    stream: fs.createWriteStream(applog, { flags: 'a', encoding: 'utf-8', mode: 0o644 })
+    stream: fs.createWriteStream(applog, flags)
     handleExceptions: true
     json: false
     level: 'info'
     timestamp: true
   )
-  accesslog = { format: 'default', stream: fs.createWriteStream("#{rundir}/access.log", {flags: 'a', encoding: 'utf-8', mode: 0o644})}
+  accesslog = format: 'default', stream: fs.createWriteStream("#{rundir}/access.log", flags)
 
 applogger = new (winston.Logger)(
   exitOnError: false
