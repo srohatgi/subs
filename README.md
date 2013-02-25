@@ -9,14 +9,14 @@ In your development box:
   
 ## Configuring
 
-### SSL Certificates
+### SSL certificates
 
 To update the default installed self signed certificate with correct one.
 
     # cp correct-server.key subs/cert/server.key
     # cp correct-server.crt subs/cert/server.crt    
 
-### Settings
+### Other application settings
 
 As per `subs/config.json`:
 
