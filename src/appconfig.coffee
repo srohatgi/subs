@@ -16,10 +16,9 @@ if watchmode
     timestamp: true
   )
 else
-  applog = "#{rundir}/subs.log"
   flags = flags: 'a', encoding: 'utf-8', mode: 0o644
   transports.push new (winston.transports.File)(
-    stream: fs.createWriteStream(applog, flags)
+    stream: fs.createWriteStream("#{rundir}/subs.log", flags)
     handleExceptions: true
     json: false
     level: 'info'
@@ -27,10 +26,7 @@ else
   )
   accesslog = format: 'default', stream: fs.createWriteStream("#{rundir}/access.log", flags)
 
-applogger = new (winston.Logger)(
-  exitOnError: false
-  transports: transports
-)
+applogger = new (winston.Logger)( exitOnError: false, transports: transports )
 
 log = 
   ip: (req)-> req.headers?["x-forwarded-for"] || req.connection?.remoteAddress

@@ -19,3 +19,9 @@ lib/config.json
 apps/build
 
 apps/node_modules
+
+public/javascripts/backbone-min.js
+
+public/javascripts/handlebars.runtime.js
+
+public/javascripts/underscore-min.js
