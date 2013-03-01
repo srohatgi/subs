@@ -1,4 +1,4 @@
 #!/bin/bash
 
 make
-nodemon -e '.coffee|.jade|.json' lib/dev.js
+nodemon -e '.coffee|.jade|.json|.html|.css|.hbs' lib/dev.js
