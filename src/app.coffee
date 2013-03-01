@@ -25,7 +25,7 @@ app.configure ->
   app.set "view options",
     layout: false
 
-  app.use express.favicon "#{__dirname}/../public/images/favicon.ico"
+  app.use express.favicon "#{__dirname}/../public/favicon.ico"
   app.use express.logger log.accesslog
   app.use express.cookieParser()
   app.use express.bodyParser()
