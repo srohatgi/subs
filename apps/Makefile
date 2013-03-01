@@ -3,21 +3,23 @@ tgt += $(patsubst %.hbs,build/%.hbjs,$(wildcard **/*.hbs))
 tgt += $(patsubst %.png,build/%.png,$(wildcard **/*.png))
 tgt += $(patsubst %.jpg,build/%.jpg,$(wildcard **/*.jpg))
 
-ftype = -name '*.hbs' -o -name '*.coffee' -o -name '*.png' -o -name '*.jpg'
-pub = ../public/js
+ftype = -name '*.hbs' -o -name '*.coffee' -o -name '*.png' -o -name '*.jpg' -o -name '*.css'
+pub = ../public/js/vendor
 clt_js = $(pub)/handlebars.runtime.js $(pub)/underscore-min.js $(pub)/backbone-min.js
 spas = $(shell \ls -l | grep ^d | awk '{print $$NF}' | grep -v node_modules | grep -v build)
 
 all: | node_modules $(tgt) $(clt_js) $(spas)
 
 define spa_builder
-../public/$(1)-index.html: $(shell find $(1) $(ftype) -type f)
+../public/$(1)-index.html: $(shell find $(1) $(ftype) -type f) index.html
 	# create main-app.js
 	node_modules/uglify-js/bin/uglifyjs -o ../public/js/$(1)-app.js `ls build/$(1)/*.js build/$(1)/*.hbjs`
+	# copy over css file
+	cat $(1)/*.css > ../public/css/$(1)-app.css
 	# copy over any changed images (jpg, png) to public/img
 	echo $$? | awk '{ for(i=1;i<=NF;i++) if (match($$$$i,/\.(png|jpg)$$$$/)) system(sprintf("cp %s ../public/img/",$$$$i)); }'
 	# finally copy over the html file
-	sed 's/__app\.js__/$(1)-app.js/g' index.html > $$@
+	sed -e 's/__app\.js__/$(1)-app.js/g' -e 's/__app\.css__/$(1)-app.css/g' index.html > $$@
 
 $(1): ../public/$(1)-index.html
 endef
