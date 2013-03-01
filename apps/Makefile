@@ -8,12 +8,12 @@ pub = ../public/js
 clt_js = $(pub)/handlebars.runtime.js $(pub)/underscore-min.js $(pub)/backbone-min.js
 spas = $(shell \ls -l | grep ^d | awk '{print $$NF}' | grep -v node_modules | grep -v build)
 
-all: node_modules $(tgt) $(clt_js) $(spas)
+all: | node_modules $(tgt) $(clt_js) $(spas)
 
 define spa_builder
 ../public/$(1)-index.html: $(shell find $(1) $(ftype) -type f)
 	# create main-app.js
-	node_modules/uglify-js/bin/uglifyjs -o ../public/$(1)-app.js $(shell \ls build/$(1)/*.js build/$(1)/*.hbjs)
+	node_modules/uglify-js/bin/uglifyjs -o ../public/$(1)-app.js `ls build/$(1)/*.js build/$(1)/*.hbjs`
 	# copy over any changed images (jpg, png) to public/img
 	echo $$? | awk '{ for(i=1;i<=NF;i++) if (match($$$$i,/\.(png|jpg)$$$$/)) system(sprintf("cp %s ../public/img/",$$$$i)); }'
 	# finally copy over the html file
