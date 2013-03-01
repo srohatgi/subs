@@ -8,7 +8,7 @@ pub = ../public/js/vendor
 clt_js = $(pub)/handlebars.runtime.js $(pub)/underscore-min.js $(pub)/backbone-min.js
 spas = $(shell \ls -l | grep ^d | awk '{print $$NF}' | grep -v node_modules | grep -v build)
 
-all: | node_modules $(tgt) $(clt_js) $(spas)
+all: | node_modules ../public/css/default.css $(tgt) $(clt_js) $(spas)
 
 define spa_builder
 ../public/$(1)-index.html: $(shell find $(1) $(ftype) -type f) index.html
@@ -53,6 +53,9 @@ build/%.jpg: %.jpg
 ../public: 
 	mkdir -p ../public
 	cp -Rf ../initializr/* ../public
+
+../public/css/default.css: default.less ../public
+	node_modules/less/bin/lessc -x $< > $@
 
 $(pub)/handlebars.runtime.js: node_modules/handlebars/dist/handlebars.runtime.js ../public 
 	node_modules/uglify-js/bin/uglifyjs -o $@ $<

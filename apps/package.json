@@ -5,7 +5,8 @@
   "dependencies": {
     "uglify-js": "latest",
     "handlebars": "latest",
-    "backbone": "latest"  
+    "backbone": "latest",
+    "less": "latest"
   },
   "engines": {
     "node": "0.8.2",
