@@ -10,10 +10,15 @@ spas = $(shell \ls -l | grep ^d | awk '{print $$NF}' | grep -v node_modules | gr
 
 all: | node_modules ../public/css/default.css $(tgt) $(clt_js) $(spas)
 
+process_js = cat `\ls build/$(1)/*.js build/$(1)/*.hbjs` > ../public/js/$(1)-app.js
+ifeq ($(minify),true)
+process_js = 	node_modules/uglify-js/bin/uglifyjs -o ../public/js/$(1)-app.js `ls build/$(1)/*.js build/$(1)/*.hbjs`
+endif
+
 define spa_builder
 ../public/$(1)-index.html: $(shell find $(1) $(ftype) -type f) index.html
 	# create main-app.js
-	node_modules/uglify-js/bin/uglifyjs -o ../public/js/$(1)-app.js `ls build/$(1)/*.js build/$(1)/*.hbjs`
+	$(call process_js,$(1))
 	# copy over css file
 	cat $(1)/*.css > ../public/css/$(1)-app.css
 	# copy over any changed images (jpg, png) to public/img
@@ -42,7 +47,7 @@ build/%.min.js: build/%.js
 	node_modules/uglify-js/bin/uglifyjs -o $@ $<
 
 build/%.hbjs: %.hbs
-	node_modules/handlebars/bin/handlebars -m $< -f $@
+	node_modules/handlebars/bin/handlebars $< -f $@
 
 build/%.png: %.png
 	cp -f $< $@
