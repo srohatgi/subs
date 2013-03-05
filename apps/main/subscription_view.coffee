@@ -1,7 +1,15 @@
 SubscriptionsView = Backbone.View.extend
+	el: $('#slide_panel')
+	
 	initialize: ()-> @render()
+	
+	template: Handlebars.templates['subscription_view.hbs']
+	
 	render: ()->
-		$(@el).html Handlebars.templates['subscription_view.hbs']()
+		console.log "inside the view collection = #{JSON.stringify @collection,null,2}"
+		@$el.empty()
+		@$el.html @template(@collection)
 		@
 
-subscription_view = new SubscriptionsView el: $('#slide_panel')
+subscription_view = new SubscriptionsView 
+	collection: { subscription: window.App.models["subscriptions"] } 
