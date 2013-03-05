@@ -3,7 +3,7 @@ tgt += $(patsubst src/%.json,lib/%.json,$(wildcard src/*.json src/**/*.json))
 
 all: apps node_modules $(tgt)
 
-.PHONY: all transfer clean server apps
+.PHONY: all transfer clean server apps cleanall
 
 apps: 
 	$(MAKE) -C apps
@@ -12,8 +12,11 @@ node_modules: package.json
 	-rm -rf node_modules
 	npm install
 
+cleanall: 
+	$(MAKE) -C apps clean
+	rm -rf lib
+	
 clean:
-	rm -f server.tar.gz
 	rm -rf lib
 
 lib/%.js: src/%.coffee
