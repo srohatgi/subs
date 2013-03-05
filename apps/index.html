@@ -23,6 +23,7 @@
 
   <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
   <script>
+    // cross script communication!
     var main_app = (function() {
       var x = {
         routers: {},
@@ -31,9 +32,15 @@
       };
       return {
         add: function(type,name,obj) {
+          console.log("adding type:"+type+" name:"+name);
           x[type][name] = obj;
         },
         get: function(type,name) {
+          if (!x[type][name]) {
+            console.log("error!! no type:"+type+" name:"+name+" saved so far.");
+            return {};
+          }
+          console.log("getting type:"+type+" name:"+name);
           return x[type][name];
         }
       };
@@ -78,13 +85,8 @@
   <div class="container">
 
     <div class="row">
-      <div id="slide_panel" class="span2 bs-docs-sidebar">
-      </div>
-      <div class="span10">
-        <h2>Netflix</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn" href="#">View details &raquo;</a></p>
-      </div>
+      <div id="side_panel" class="span2 bs-docs-sidebar"></div>
+      <div id="center_panel" class="span10"></div>
     </div>
 
     <hr>
