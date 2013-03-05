@@ -6,10 +6,11 @@ SubscriptionsView = Backbone.View.extend
 	template: Handlebars.templates['subscription_view.hbs']
 	
 	render: ()->
-		console.log "inside the view collection = #{JSON.stringify @collection,null,2}"
+		#console.log "inside the view collection = #{JSON.stringify @collection,null,2}"
 		@$el.empty()
-		@$el.html @template(@collection)
+		hack = JSON.parse JSON.stringify({ subscription: @collection })
+		@$el.html @template(hack)
 		@
 
 subscription_view = new SubscriptionsView 
-	collection: { subscription: window.App.models["subscriptions"] } 
+	collection: window.App.models["subscriptions"] 
