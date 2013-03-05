@@ -10,7 +10,7 @@ spas = $(shell \ls -l | grep ^d | awk '{print $$NF}' | grep -v node_modules | gr
 
 all: | node_modules ../public/css/default.css $(tgt) $(clt_js) $(spas)
 
-process_js = \ls build/$(1)/*.js build/$(1)/*.hbjs | xargs cat > ../public/js/$(1)-app.js
+process_js = cat build/$(1)/*_model.js build/$(1)/*_view.hbjs  build/$(1)/*_view.js build/$(1)/*router.js > ../public/js/$(1)-app.js
 ifeq ($(minify),true)
 process_js = 	node_modules/uglify-js/bin/uglifyjs -o ../public/js/$(1)-app.js `ls build/$(1)/*.js build/$(1)/*.hbjs`
 endif
