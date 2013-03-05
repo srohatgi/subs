@@ -13,6 +13,6 @@ Subscriptions = Backbone.Collection.extend
 
 subscriptions = new Subscriptions
 
-subscriptions.add [ { name: "Netflix" }, { name: "Vonage" } ]
+subscriptions.add [ { name: "Netflix" }, { name: "Vonage" }, { name: "RedBox" }, { name: 'YouSendIt'} ]
 
-window.App.models.subscriptions = subscriptions
+main_app.add('models','subscriptions',subscriptions)

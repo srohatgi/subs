@@ -23,11 +23,21 @@
 
   <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
   <script>
-    window.App = {
-      routers: {},
-      views: {},
-      models: {}
-    };
+    var main_app = (function() {
+      var x = {
+        routers: {},
+        views: {},
+        models: {}
+      };
+      return {
+        add: function(type,name,obj) {
+          x[type][name] = obj;
+        },
+        get: function(type,name) {
+          return x[type][name];
+        }
+      };
+    })();
   </script>
 </head>
 <body>

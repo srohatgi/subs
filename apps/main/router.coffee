@@ -9,7 +9,7 @@ bootup = ()->
 
 	console.log "hello = world"
 
-	window.App.routers.main_router = main_router
+	main_app.add('routers','main_router',main_router)
 
 	Backbone.history.start()
 
