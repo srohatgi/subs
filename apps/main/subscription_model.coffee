@@ -11,6 +11,8 @@ Subscription = Backbone.Model.extend
 Subscriptions = Backbone.Collection.extend
 	model: Subscription
 
+	localStorage: new Backbone.LocalStorage("subscriptions-backbone")
+
 subscriptions = new Subscriptions
 
 subscriptions.add [ { name: "Netflix" }, { name: "Vonage" }, { name: "RedBox" }, { name: 'YouSendIt'} ]

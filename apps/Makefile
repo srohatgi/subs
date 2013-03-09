@@ -5,7 +5,8 @@ tgt += $(patsubst %.jpg,build/%.jpg,$(wildcard **/*.jpg))
 
 ftype = -name '*.hbs' -o -name '*.coffee' -o -name '*.png' -o -name '*.jpg' -o -name '*.css'
 pub = ../public/js/vendor
-clt_js = $(pub)/handlebars.runtime.js $(pub)/underscore-min.js $(pub)/backbone-min.js
+clt_js = $(pub)/handlebars.runtime.js $(pub)/underscore-min.js $(pub)/backbone-min.js 
+clt_js += $(pub)/backbone.localStorage.js
 spas = $(shell \ls -l | grep ^d | awk '{print $$NF}' | grep -v node_modules | grep -v build)
 
 all: | node_modules ../public/css/default.css $(tgt) $(clt_js) $(spas)
@@ -69,4 +70,7 @@ $(pub)/underscore-min.js: node_modules/backbone/node_modules/underscore/undersco
 	cp -f $< $@
 
 $(pub)/backbone-min.js: node_modules/backbone/backbone-min.js ../public 
+	cp -f $< $@
+
+$(pub)/backbone.localStorage.js: ../vendor/backbone.localStorage.js
 	cp -f $< $@
