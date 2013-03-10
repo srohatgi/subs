@@ -38,7 +38,9 @@ app.configure ->
 
 app.configure "development", -> app.use express.errorHandler()
 
-app.get "/", (req,res)-> fs.createReadStream("#{__dirname}/../public/main-index.html").pipe(res)
+app.get "/", (req,res)-> 
+  fs.createReadStream("#{__dirname}/../public/main-index.html").pipe(res)
+
 app.get "/flower", routes.flower
 
 # define login to the app

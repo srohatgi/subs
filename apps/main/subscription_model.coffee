@@ -8,6 +8,7 @@ Subscription = Backbone.Model.extend
 		username: null
 		password: null
 
+
 Subscriptions = Backbone.Collection.extend
 	model: Subscription
 
@@ -15,6 +16,24 @@ Subscriptions = Backbone.Collection.extend
 
 subscriptions = new Subscriptions
 
-subscriptions.add [ { name: "Netflix" }, { name: "Vonage" }, { name: "RedBox" }, { name: 'YouSendIt'} ]
+subscriptions.add [ 
+	{ name: "Netflix" }, 
+	{ name: "Vonage" }, 
+	{ name: "RedBox" }, 
+	{ name: 'YouSendIt'} 
+]
+
+subscriptions.on "sync", (col,res,options)->
+	console.log "succesful sync"
+
+subscriptions.on "error", (col,xhr,options)->
+	console.log "error in sync #{col}:#{xhr}:#{options}"
+
+try
+	console.log "model(#{s.cid}): #{JSON.stringify(s)}" for s in subscriptions.models	
+	subscriptions.sync("create",subscriptions)
+	console.log "added all models to localStorage"
+catch e
+	console.log "error: #{e}"
 
 main_app.add('models','subscriptions',subscriptions)
