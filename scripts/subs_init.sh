@@ -35,7 +35,7 @@ start() {
     echo "Starting subs"
     ulimit -n 100000
     umask 007
-    /usr/local/bin/node /Users/sumeet/github/subs/lib/ctrl.js start
+    /usr/local/bin/node /Users/sumeet/github/subs/server/lib/ctrl.js start
   fi
 
   return 0
@@ -46,7 +46,7 @@ stop() {
   if [ -n "$pid" ]
   then
     echo "Stoping lfx_intg with ($pid)"
-    /usr/local/bin/node /Users/sumeet/github/subs/lib/ctrl.js stop
+    /usr/local/bin/node /Users/sumeet/github/subs/server/lib/ctrl.js stop
 
     let kwait=$SHUTDOWN_WAIT
     count=0;

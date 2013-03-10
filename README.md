@@ -1,11 +1,9 @@
 # Subsimple
 
 ## Developing
-
-In your development box:
   
     $ cd subs
-    $ s.sh
+    $ s
   
 ## Configuring
 
@@ -13,12 +11,12 @@ In your development box:
 
 To update the default installed self signed certificate with correct one.
 
-    # cp correct-server.key subs/cert/server.key
-    # cp correct-server.crt subs/cert/server.crt    
+    # cp correct-server.key subs/server/cert/server.key
+    # cp correct-server.crt subs/server/cert/server.crt    
 
 ### Other application settings
 
-As per `subs/config.json`:
+As per `subs/server/src/config.json`:
 
 		{
 			"port": {
