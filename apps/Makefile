@@ -4,30 +4,30 @@ tgt += $(patsubst %.png,build/%.png,$(wildcard **/*.png))
 tgt += $(patsubst %.jpg,build/%.jpg,$(wildcard **/*.jpg))
 
 ftype = -name '*.hbs' -o -name '*.coffee' -o -name '*.png' -o -name '*.jpg' -o -name '*.css'
-pub = ../public/js/vendor
+pub = ../server/public/js/vendor
 clt_js = $(pub)/handlebars.runtime.js $(pub)/underscore-min.js $(pub)/backbone-min.js 
 clt_js += $(pub)/backbone.localStorage.js
 spas = $(shell \ls -l | grep ^d | awk '{print $$NF}' | grep -v node_modules | grep -v build)
 
-all: | node_modules ../public/css/default.css $(tgt) $(clt_js) $(spas)
+all: | node_modules ../server/public/css/default.css $(tgt) $(clt_js) $(spas)
 
 process_js = cat build/$(1)/*_model.js build/$(1)/*_view.hbjs  build/$(1)/*_view.js build/$(1)/*router.js > ../public/js/$(1)-app.js
 ifeq ($(minify),true)
-process_js = 	node_modules/uglify-js/bin/uglifyjs -o ../public/js/$(1)-app.js `ls build/$(1)/*.js build/$(1)/*.hbjs`
+process_js = 	node_modules/uglify-js/bin/uglifyjs -o ../server/public/js/$(1)-app.js `ls build/$(1)/*.js build/$(1)/*.hbjs`
 endif
 
 define spa_builder
-../public/$(1)-index.html: $(shell find $(1) $(ftype) -type f) index.html
+../server/public/$(1)-index.html: $(shell find $(1) $(ftype) -type f) index.html
 	# create main-app.js
 	$(call process_js,$(1))
 	# copy over css file
-	cat $(1)/*.css > ../public/css/$(1)-app.css
+	cat $(1)/*.css > ../server/public/css/$(1)-app.css
 	# copy over any changed images (jpg, png) to public/img
-	echo $$? | awk '{ for(i=1;i<=NF;i++) if (match($$$$i,/\.(png|jpg)$$$$/)) system(sprintf("cp %s ../public/img/",$$$$i)); }'
+	echo $$? | awk '{ for(i=1;i<=NF;i++) if (match($$$$i,/\.(png|jpg)$$$$/)) system(sprintf("cp %s ../server/public/img/",$$$$i)); }'
 	# finally copy over the html file
 	sed -e 's/__app\.js__/$(1)-app.js/g' -e 's/__app\.css__/$(1)-app.css/g' index.html > $$@
 
-$(1): ../public/$(1)-index.html
+$(1): ../server/public/$(1)-index.html
 endef
 
 $(foreach x,$(spas),$(eval $(call spa_builder,$(x))))
@@ -56,21 +56,21 @@ build/%.png: %.png
 build/%.jpg: %.jpg
 	cp -f $< $@
 
-../public: 
-	mkdir -p ../public
-	cp -Rf ../initializr/* ../public
+../server/public: 
+	mkdir -p ../server/public
+	cp -Rf ../initializr/* ../server/public
 
-../public/css/default.css: default.less ../public
+../server/public/css/default.css: default.less ../server/public
 	node_modules/less/bin/lessc -x $< > $@
 
-$(pub)/handlebars.runtime.js: node_modules/handlebars/dist/handlebars.runtime.js ../public 
+$(pub)/handlebars.runtime.js: node_modules/handlebars/dist/handlebars.runtime.js ../server/public 
 	node_modules/uglify-js/bin/uglifyjs -o $@ $<
 
-$(pub)/underscore-min.js: node_modules/backbone/node_modules/underscore/underscore-min.js ../public 
+$(pub)/underscore-min.js: node_modules/backbone/node_modules/underscore/underscore-min.js ../server/public 
 	cp -f $< $@
 
-$(pub)/backbone-min.js: node_modules/backbone/backbone-min.js ../public 
+$(pub)/backbone-min.js: node_modules/backbone/backbone-min.js ../server/public 
 	cp -f $< $@
 
-$(pub)/backbone.localStorage.js: ../vendor/backbone.localStorage.js
+$(pub)/backbone.localStorage.js: ../vendor/backbone.localStorage.js ../server/public
 	cp -f $< $@

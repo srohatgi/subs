@@ -1,8 +1,8 @@
 
-lib/*.js
-lib/**/*.js
+**/lib/*.js
+**/lib/**/*.js
 
-node_modules/*
+**/node_modules/*
 
 */.DS_Store
 
@@ -14,7 +14,7 @@ node_modules/*
 
 *.pid
 
-lib/config.json
+server/lib/config.json
 
 apps/build
 

@@ -10,5 +10,5 @@ make.on 'exit', (code)->
 
 	process.stderr.write "make passed!\n"
 	
-	kexec("#{process.execPath} lib/app.js")
+	kexec("#{process.execPath} server/lib/app.js")
 
