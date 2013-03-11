@@ -1,5 +1,6 @@
 express = require("express")
 routes = require("./routes")
+api = require("./api")
 http = require("http")
 https = require("https")
 fs = require("fs")
@@ -42,6 +43,9 @@ app.get "/", (req,res)->
   fs.createReadStream("#{__dirname}/../public/main-index.html").pipe(res)
 
 app.get "/flower", routes.flower
+
+app.get "/api/subscriptions", api.subscriptions.get
+app.post "/api/subscriptions", api.subscriptions.add
 
 # define login to the app
 routes.facebook_login(app)
