@@ -1,5 +1,5 @@
 {log} = require '../appconfig'
-{wrapper} = require './common_utils'
+{set_header,wrapper,error_codes} = require './common_utils'
 
 data = 
 	[ 
@@ -9,9 +9,10 @@ data =
 
 module.exports = 
 	get: (req,res)->
-		res.header 'Content-Type', 'application/json'
-		res.end wrapper data, 0
+		set_header res
+		res.end wrapper data, error_codes.SUCCESS
 
 	add: (req,res)->
+		set_header res
 		data.push req.body
-		res.end wrapper {}, 0 	
+		res.end wrapper {}, error_codes.SUCCESS	
