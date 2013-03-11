@@ -58,7 +58,7 @@ build/%.jpg: %.jpg
 
 ../server/public: 
 	mkdir -p ../server/public
-	cp -Rf ../initializr/* ../server/public
+	cp -Rf ../vendor/initializr/* ../server/public
 
 ../server/public/css/default.css: default.less ../server/public
 	node_modules/less/bin/lessc -x $< > $@

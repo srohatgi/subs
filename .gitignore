@@ -14,8 +14,10 @@
 
 *.pid
 
-server/lib/config.json
-
 apps/build
 
+server/lib
+
 apps/node_modules
+
+server/public
