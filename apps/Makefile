@@ -39,7 +39,7 @@ node_modules: package.json
 	npm install
 
 clean: 
-	-rm -rf build ../public
+	-rm -rf build ../server/public
 
 build/%.js: %.coffee
 	coffee -o $(dir $@) $<
