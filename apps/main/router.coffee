@@ -1,11 +1,11 @@
 bootup = ()->
 	MainRouter = Backbone.Router.extend
 		routes: 
-			"subscription/:name": "setupViews"
+			"subscription_detail/:model_name": "setupViews"
 			"*actions": "defaultRoute"
 
-		setupViews: (name)->
-			console.log "detail on #{name} requested"
+		setupViews: (model_name)->
+			console.log "detail for #{model_name} requested"
 			subscription_detail_view = main_app.get('views','subscription_detail_view')
 			subscription_list_view = main_app.get('views','subscription_list_view')
 
