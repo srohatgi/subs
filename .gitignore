@@ -19,7 +19,3 @@ server/lib/config.json
 apps/build
 
 apps/node_modules
-
-public/*
-
-server/public/**/*
