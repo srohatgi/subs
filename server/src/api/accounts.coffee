@@ -12,16 +12,26 @@ data = [
  }
 ]
 
+find_data = (id)->
+	for d in data
+		return d if d.id == id 
+	return null
+
 module.exports = 
 	get: (req,res)->
 		set_header res
 
 		log.info "id = #{req.params.id}"
-		id = req.params.id
-		for d in data
-			log.info "d = #{JSON.stringify d}"
-			if d.id == id
-				res.end wrapper d, 0
-				return
+		d = find_data req.params.id
+		return res.end wrapper d, 0 if d
 
 		res.end wrapper { error: 'unknown account' }, error_codes.NOT_FOUND
+
+	put: (req,res)->
+		set_header res
+
+		log.info "id = #{req.params.id} body = #{JSON.stringify req.body}"
+		d = find_data req.params.id
+		d[prop] = req.body[prop] for prop of req.body
+		res.end wrapper {}, error_codes.SUCCESS
+
