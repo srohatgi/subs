@@ -21,3 +21,5 @@ apps/build
 apps/node_modules
 
 public/*
+
+server/public/**/*
