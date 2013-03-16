@@ -47,8 +47,8 @@ app.get "/flower", routes.flower
 app.get "/api/subscriptions", api.subscriptions.get
 app.post "/api/subscriptions", api.subscriptions.add
 
-app.get "/api/accounts/:id", api.accounts.get
-app.put "/api/accounts/:id", api.accounts.put
+app.get "/api/accounts/me", api.accounts.get
+app.put "/api/accounts/me", api.accounts.put
 
 # define login to the app
 routes.facebook_login(app)

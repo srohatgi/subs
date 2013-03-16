@@ -17,7 +17,7 @@ bootup = ()->
 	main_router = new MainRouter
 
 	main_router.on 'route:defaultRoute', (actions)->
-		alert('hello')
+		alert("#{actions}")
 		login_view.render()
 
 	main_app.add('routers','main_router',main_router)

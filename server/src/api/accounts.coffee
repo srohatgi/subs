@@ -21,9 +21,9 @@ module.exports =
 	get: (req,res)->
 		set_header res
 
-		log.info "id = #{req.params.id}"
-		d = find_data req.params.id
-		return res.end wrapper d, 0 if d
+		log.info "user = #{JSON.stringify req.user, null, 2}"
+		#d = find_data req.params.id
+		return res.end wrapper req.user if req.user 
 
 		res.end wrapper { error: 'unknown account' }, error_codes.NOT_FOUND
 

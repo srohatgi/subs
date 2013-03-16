@@ -1,7 +1,7 @@
 SubscriptionDetailView = Backbone.View.extend
 	el: $('#center_panel')
 	
-	initialize: ()-> @render()
+	initialize: ()-> 
 	
 	template: Handlebars.templates['subscription_detail_view.hbs']
 	
