@@ -2,6 +2,10 @@ bootup = ()->
 	subscription_detail_view = main_app.get('views','subscription_detail_view')
 	subscription_list_view = main_app.get('views','subscription_list_view')
 	login_view = main_app.get('views','login_view')
+	status_view = main_app.get('views','status_view')
+
+	account = main_app.get('models','account')
+	
 	logged_in = false
 
 	MainRouter = Backbone.Router.extend
@@ -11,14 +15,18 @@ bootup = ()->
 
 		setupViews: (model_name)->
 			console.log "detail for #{model_name} requested"
-			subscription_list_view.render()
-			subscription_detail_view.render()
+			login_view.remove()
+			status_view.render()
+			#subscription_list_view.render()
+			#subscription_detail_view.render()
 
 	main_router = new MainRouter
 
 	main_router.on 'route:defaultRoute', (actions)->
-		alert("#{actions}")
-		login_view.render()
+		if actions is 'logged_in'
+			this.setupViews()
+		else
+			login_view.render()
 
 	main_app.add('routers','main_router',main_router)
 

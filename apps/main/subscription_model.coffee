@@ -8,19 +8,13 @@ Subscription = Backbone.Model.extend
 		username: null
 		password: null
 
-	localStorage: new Backbone.LocalStorage("subscription")
-
-
 Subscriptions = Backbone.Collection.extend
 	model: Subscription
-
-	localStorage: new Backbone.LocalStorage("subscriptions-backbone")
 
 subscriptions = new Subscriptions
 
 for model_name in [ "Netflix", "Vonage", "LinkedIn" ]
 	s = new Subscription({ name: model_name })
-	s.save()
 	subscriptions.add(s)
 
 console.log "model(#{s.cid}): #{JSON.stringify(s)}" for s in subscriptions.models	
