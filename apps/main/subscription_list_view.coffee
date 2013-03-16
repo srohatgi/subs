@@ -1,7 +1,7 @@
 SubscriptionListView = Backbone.View.extend
 	el: $('#side_panel')
 	
-	initialize: ()-> @render()
+	initialize: ()->
 	
 	template: Handlebars.templates['subscription_list_view.hbs']
 	

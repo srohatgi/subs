@@ -32,6 +32,8 @@ module.exports =
 
 		log.info "id = #{req.params.id} body = #{JSON.stringify req.body}"
 		d = find_data req.params.id
+		return res.end wrapper { error: 'unknown account' }, error_codes.NOT_FOUND if not d
+
 		d[prop] = req.body[prop] for prop of req.body
 		res.end wrapper {}, error_codes.SUCCESS
 
