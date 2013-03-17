@@ -1,35 +1,34 @@
 bootup = ()->
-	subscription_detail_view = main_app.get('views','subscription_detail_view')
-	subscription_list_view = main_app.get('views','subscription_list_view')
-	login_view = main_app.get('views','login_view')
-	status_view = main_app.get('views','status_view')
+  subscription_detail_view = main_app.get('views','subscription_detail_view')
+  subscription_list_view = main_app.get('views','subscription_list_view')
+  login_view = main_app.get('views','login_view')
+  status_view = main_app.get('views','status_view')
 
-	account = main_app.get('models','account')
-	
-	logged_in = false
+  account = main_app.get('models','account')
 
-	MainRouter = Backbone.Router.extend
-		routes: 
-			"subscription_detail/:model_name": "setupViews"
-			"*actions": "defaultRoute"
+  logged_in = status: false
 
-		setupViews: (model_name)->
-			console.log "detail for #{model_name} requested"
-			login_view.remove()
-			status_view.render()
-			#subscription_list_view.render()
-			#subscription_detail_view.render()
+  MainRouter = Backbone.Router.extend
+    routes: 
+      "subscription_detail/:model_name": "setupAppViews"
+      "logged_in": "setupLoggedInStatus"
+      "*actions": "defaultRoute"
 
-	main_router = new MainRouter
+    setupLoggedInStatus: ()-> 
+      login_view.remove()
+      status_view.render()
+      status_view.update(logged_in)
 
-	main_router.on 'route:defaultRoute', (actions)->
-		if actions is 'logged_in'
-			this.setupViews()
-		else
-			login_view.render()
+    setupAppViews: (model_name)->
+      console.log "detail for #{model_name} requested; logged_in: #{JSON.stringify logged_in}"
+      return if logged_in.status == false 
+      subscription_list_view.render()
+      subscription_detail_view.render()
 
-	main_app.add('routers','main_router',main_router)
+  main_router = new MainRouter
+  main_router.on 'route:defaultRoute', (actions)-> login_view.render()
+  main_app.add('routers','main_router',main_router)
 
-	Backbone.history.start()
+  Backbone.history.start()
 
 $(document).ready(bootup)

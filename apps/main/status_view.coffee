@@ -2,15 +2,18 @@ StatusView = Backbone.View.extend
 	el: $('#status_panel')
 	
 	initialize: ()-> 
+		@listenTo(@model, "change", @render);
 	
 	template: Handlebars.templates['status_view.hbs']
 
-	update: ()-> this.model.fetch()
+	update: (@logged_in)-> @model.fetch()
 	
 	render: ()->
-		console.log "inside the status view #{JSON.stringify(this.model.attributes)}"
+		console.log "inside the status view #{JSON.stringify(@model.attributes)}"
+		return if @model.attributes.error != "200"
+		@logged_in.status = true
 		@$el.empty()
-		@$el.html @template( this.model.attributes )
+		@$el.html @template( @model.attributes )
 		@
 
 account = main_app.get('models','account')

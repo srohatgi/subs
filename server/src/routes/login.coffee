@@ -23,10 +23,9 @@ passport.use new FacebookStrategy(
   done null, profile._json
 )
 
-module.exports = (app)->
-  app.get '/auth/facebook', passport.authenticate('facebook')
+module.exports = (route_prefix,app)->
+  app.get "#{route_prefix}/facebook", passport.authenticate('facebook')
 
-  app.get '/auth/facebook/callback', passport.authenticate('facebook', 
+  app.get "#{route_prefix}/facebook/callback", passport.authenticate 'facebook', 
     successRedirect: '/#logged_in' 
     failureRedirect: '/#login'
-  )

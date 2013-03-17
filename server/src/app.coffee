@@ -21,6 +21,7 @@ app.use (req, res, next) ->
     next()
 
 app.configure ->
+  
   app.set "views", "#{__dirname}/../views"
   app.set "view engine", "jade"
   app.set "view options",
@@ -34,6 +35,9 @@ app.configure ->
   app.use express.session secret: 'keyboard cat'   
   app.use passport.initialize()
   app.use passport.session()
+  app.all "/api/*", (req,res,next)->
+    res.header 'Content-Type', 'application/json'
+    next()
   app.use app.router
   app.use express.static "#{__dirname}/../public"
 
@@ -42,16 +46,16 @@ app.configure "development", -> app.use express.errorHandler()
 app.get "/", (req,res)-> 
   fs.createReadStream("#{__dirname}/../public/main-index.html").pipe(res)
 
-app.get "/flower", routes.flower
-
 app.get "/api/subscriptions", api.subscriptions.get
-app.post "/api/subscriptions", api.subscriptions.add
+app.post "/api/subscriptions", api.subscriptions.post
+app.put "/api/subscriptions/:id(*)", api.subscriptions.put
 
 app.get "/api/accounts/me", api.accounts.get
 app.put "/api/accounts/me", api.accounts.put
+app.delete "/api/accounts/me", api.accounts.delete 
 
-# define login to the app
-routes.facebook_login(app)
+# define login routes for facebook
+routes.facebook_login('/auth',app)
 
 https.createServer(
   key: fs.readFileSync "#{__dirname}/../cert/server.key", 'utf-8'

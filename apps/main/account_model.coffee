@@ -1,11 +1,14 @@
 Accounts = Backbone.Model.extend
-	defaults: 
-		name: "noname"
-		type: "notype"
-		sex: "male"
-		id: "me"
+  defaults: 
+    error: "404"
+    message: "not logged in"
+    payload: 
+      name: "noname"
+      type: "notype"
+      sex: "male"
+      id: "me"
 
-	url: "/api/accounts/me"
+  url: "/api/accounts/me"
 
 account = new Accounts
 

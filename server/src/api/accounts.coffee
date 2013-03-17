@@ -3,8 +3,8 @@
 
 data = [
  { 
- 	id: "1" 
- 	name: 'sumeet rohatgi'
+ id: "1" 
+ name: 'sumeet rohatgi'
  },
  {
  	id: "2"
@@ -12,28 +12,25 @@ data = [
  }
 ]
 
-find_data = (id)->
-	for d in data
-		return d if d.id == id 
-	return null
+find_data = (id)->	
+  for d in data
+    return d if d.id == id 
+  return null
 
 module.exports = 
-	get: (req,res)->
-		set_header res
+  get: (req,res)->
+    log.info "user = #{JSON.stringify req.user, null, 2}"
+    return res.end wrapper null, error_codes.NOT_FOUND, 'unknown account' if not req.user 
+    res.end wrapper req.user 
 
-		log.info "user = #{JSON.stringify req.user, null, 2}"
-		#d = find_data req.params.id
-		return res.end wrapper req.user if req.user 
+  put: (req,res)->
+    log.info "id = #{req.params.id} body = #{JSON.stringify req.body}"
+    return res.end wrapper null, error_codes.NOT_FOUND, "need to login first" if not req.user
 
-		res.end wrapper { error: 'unknown account' }, error_codes.NOT_FOUND
+    d[prop] = req.body[prop] for prop of req.body
+    res.end wrapper()
 
-	put: (req,res)->
-		set_header res
-
-		log.info "id = #{req.params.id} body = #{JSON.stringify req.body}"
-		d = find_data req.params.id
-		return res.end wrapper { error: 'unknown account' }, error_codes.NOT_FOUND if not d
-
-		d[prop] = req.body[prop] for prop of req.body
-		res.end wrapper {}, error_codes.SUCCESS
-
+  delete: (req,res)->
+    log.info "logging out #{JSON.stringify req.user}"
+    req.session.destroy() if req.session
+    res.end wrapper()
