@@ -11,7 +11,7 @@ bootup = ()->
   MainRouter = Backbone.Router.extend
     routes: 
       "subscription_detail/:model_name": "setupAppViews"
-      "logged_in": "setupLoggedInStatus"
+      "logged_in": "logged_in"
       "logout": "logout"
       "*actions": "defaultRoute"
 
@@ -20,9 +20,8 @@ bootup = ()->
       status_view.remove()
       loggedout_view.show()
 
-    setupLoggedInStatus: -> 
+    logged_in: -> 
       loggedout_view.hide()
-      status_view.render()
       status_view.update(logged_in)
 
     setupAppViews: (model_name)->

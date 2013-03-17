@@ -10,7 +10,9 @@ StatusView = Backbone.View.extend
 	
 	render: ()->
 		console.log "inside the status view #{JSON.stringify(@model.attributes)}"
-		return if @model.attributes.error != "200"
+		if @model.attributes.error != "200"
+			main_app.get('routers','main_router').navigate('#logout',trigger: true)
+			return
 		@logged_in.status = true
 		@$el.empty()
 		@$el.html @template( @model.attributes )
