@@ -12,10 +12,16 @@ bootup = ()->
     routes: 
       "subscription_detail/:model_name": "setupAppViews"
       "logged_in": "setupLoggedInStatus"
+      "logout": "logout"
       "*actions": "defaultRoute"
 
+    logout: ->
+      console.log "logout called"
+      status_view.remove()
+      login_view.show()
+
     setupLoggedInStatus: ()-> 
-      login_view.remove()
+      login_view.hide()
       status_view.render()
       status_view.update(logged_in)
 
