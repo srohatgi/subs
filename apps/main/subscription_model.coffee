@@ -10,6 +10,7 @@ Subscription = Backbone.Model.extend
 
 Subscriptions = Backbone.Collection.extend
 	model: Subscription
+	url: "/api/subscriptions/me"
 
 subscriptions = new Subscriptions
 
