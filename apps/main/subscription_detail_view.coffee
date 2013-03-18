@@ -1,5 +1,5 @@
 SubscriptionDetailView = Backbone.View.extend
-	el: $('#center_panel')
+	el: $('#center_panel2')
 	
 	initialize: ()-> 
 	

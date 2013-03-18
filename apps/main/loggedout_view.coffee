@@ -1,5 +1,5 @@
 LoggedoutView = Backbone.View.extend
-	el: $('#center_panel')
+	el: $('#center_panel1')
 	
 	class: "span12"
 
