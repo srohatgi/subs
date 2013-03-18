@@ -12,7 +12,7 @@ SubscriptionListView = Backbone.View.extend
 	render: ->
 		console.log "inside the subscription list view collection = #{JSON.stringify @collection.toJSON(),null,2}"
 		@$el.empty()
-		@$el.html @template( subscription: @collection.toJSON() )
+		@$el.html @template( @collection.toJSON() )
 		@
 
 subscription_list_view = new SubscriptionListView 
