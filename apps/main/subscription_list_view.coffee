@@ -1,12 +1,16 @@
 SubscriptionListView = Backbone.View.extend
 	el: $('#side_panel')
 	
-	initialize: ()-> console.log "inside subscription list view"
+	initialize: -> 
+		console.log "inside subscription list view, @collection= #{@collection}"
+		@listenTo(@collection, "add", @render);
 	
 	template: Handlebars.templates['subscription_list_view.hbs']
+
+	update: -> @collection.fetch( update: true )
 	
-	render: ()->
-		#console.log "inside the view collection = #{JSON.stringify @collection.toJSON(),null,2}"
+	render: ->
+		console.log "inside the subscription list view collection = #{JSON.stringify @collection.toJSON(),null,2}"
 		@$el.empty()
 		@$el.html @template( subscription: @collection.toJSON() )
 		@

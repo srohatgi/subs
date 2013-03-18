@@ -18,11 +18,13 @@ bootup = ()->
     logout: ->
       console.log "logout called"
       status_view.remove()
+      subscription_list_view.remove()
       loggedout_view.show()
 
     logged_in: -> 
       loggedout_view.hide()
       status_view.update(logged_in)
+      subscription_list_view.update()
 
     setupAppViews: (model_name)->
       console.log "detail for #{model_name} requested; logged_in: #{JSON.stringify logged_in}"
