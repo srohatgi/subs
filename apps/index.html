@@ -44,7 +44,7 @@
       };
       return {
         add: function(type,name,obj) {
-          console.log("adding type:"+type+" name:"+name);
+          //console.log("adding type:"+type+" name:"+name);
           x[type][name] = obj;
         },
         get: function(type,name) {
@@ -52,7 +52,7 @@
             console.log("error!! no type:"+type+" name:"+name+" saved so far.");
             return {};
           }
-          console.log("getting type:"+type+" name:"+name);
+          //console.log("getting type:"+type+" name:"+name);
           return x[type][name];
         }
       };
