@@ -9,11 +9,11 @@ clt_js = $(pub)/handlebars.runtime.js $(pub)/underscore-min.js $(pub)/backbone-m
 clt_js += $(pub)/backbone.localStorage.js
 spas = $(shell \ls -l | grep ^d | awk '{print $$NF}' | grep -v node_modules | grep -v build)
 
-all: | node_modules ../server/public/css/default.css $(tgt) $(clt_js) $(spas)
+all: | build/node_modules ../server/public/css/default.css $(tgt) $(clt_js) $(spas)
 
 process_js = cat build/$(1)/*_model.js build/$(1)/*_view.hbjs  build/$(1)/*_view.js build/$(1)/*router.js > ../server/public/js/$(1)-app.js
 ifeq ($(minify),true)
-process_js = 	node_modules/uglify-js/bin/uglifyjs -o ../server/public/js/$(1)-app.js `ls build/$(1)/*.js build/$(1)/*.hbjs`
+process_js = 	build/node_modules/uglify-js/bin/uglifyjs -o ../server/public/js/$(1)-app.js `ls build/$(1)/*.js build/$(1)/*.hbjs`
 endif
 
 define spa_builder
@@ -34,9 +34,12 @@ $(foreach x,$(spas),$(eval $(call spa_builder,$(x))))
 
 .PHONY: clean all 
 
-node_modules: package.json
-	-rm -rf node_modules
-	npm install
+build/node_modules: build/package.json
+	-rm -rf build/node_modules
+	cd build; npm install
+
+build/package.json: package.json
+	cp -f $< $@
 
 clean: 
 	-rm -rf build ../server/public
@@ -45,10 +48,10 @@ build/%.js: %.coffee
 	coffee -o $(dir $@) $<
 
 build/%.min.js: build/%.js
-	node_modules/uglify-js/bin/uglifyjs -o $@ $<
+	build/node_modules/uglify-js/bin/uglifyjs -o $@ $<
 
 build/%.hbjs: %.hbs
-	node_modules/handlebars/bin/handlebars $< -f $@
+	build/node_modules/handlebars/bin/handlebars $< -f $@
 
 build/%.png: %.png
 	cp -f $< $@
@@ -61,15 +64,15 @@ build/%.jpg: %.jpg
 	cp -Rf ../vendor/initializr/* ../server/public
 
 ../server/public/css/default.css: default.less ../server/public
-	node_modules/less/bin/lessc -x $< > $@
+	build/node_modules/less/bin/lessc -x $< > $@
 
-$(pub)/handlebars.runtime.js: node_modules/handlebars/dist/handlebars.runtime.js ../server/public 
-	node_modules/uglify-js/bin/uglifyjs -o $@ $<
+$(pub)/handlebars.runtime.js: build/node_modules/handlebars/dist/handlebars.runtime.js ../server/public 
+	build/node_modules/uglify-js/bin/uglifyjs -o $@ $<
 
-$(pub)/underscore-min.js: node_modules/backbone/node_modules/underscore/underscore-min.js ../server/public 
+$(pub)/underscore-min.js: build/node_modules/backbone/node_modules/underscore/underscore-min.js ../server/public 
 	cp -f $< $@
 
-$(pub)/backbone-min.js: node_modules/backbone/backbone-min.js ../server/public 
+$(pub)/backbone-min.js: build/node_modules/backbone/backbone-min.js ../server/public 
 	cp -f $< $@
 
 $(pub)/backbone.localStorage.js: ../vendor/backbone.localStorage.js ../server/public
