@@ -19,7 +19,7 @@ find_data = (id)->
 
 module.exports = 
   get: (req,res)->
-    log.info "user = #{JSON.stringify req.user, null, 2}"
+    log.info "user = #{JSON.stringify req.user}"
     return res.end wrapper null, error_codes.NOT_FOUND, 'unknown account' if not req.user 
     res.end wrapper req.user 
 

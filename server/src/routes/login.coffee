@@ -3,11 +3,11 @@ passport = require('passport')
 FacebookStrategy = require('passport-facebook').Strategy;
 
 passport.serializeUser (user, done)-> 
-  log.info "user = #{user}"
+  #log.info "user = #{user}"
   done(null, user)
 
 passport.deserializeUser (obj, done)-> 
-  log.info "obj = #{JSON.stringify(obj,null,2)}"
+  #log.info "obj = #{JSON.stringify(obj,null,2)}"
   done(null, obj)
 
 passport.use new FacebookStrategy(
@@ -19,7 +19,7 @@ passport.use new FacebookStrategy(
   #  if (err) { return done(err); }
   #  done(null, user);
   #});
-  log.info "accessToken: #{accessToken} profile: #{JSON.stringify profile._json, null, 2}"
+  log.info "accessToken: #{accessToken} profile: #{JSON.stringify profile._json}"
   done null, profile._json
 )
 
