@@ -46,13 +46,13 @@ app.configure "development", -> app.use express.errorHandler()
 app.get "/", (req,res)-> 
   fs.createReadStream("#{__dirname}/../public/main-index.html").pipe(res)
 
-app.get "/api/subscriptions", api.subscriptions.get
-app.post "/api/subscriptions", api.subscriptions.post
+app.get "/api/subscriptions/:id(*)", api.subscriptions.get
+app.post "/api/subscriptions/:id(*)", api.subscriptions.post
 app.put "/api/subscriptions/:id(*)", api.subscriptions.put
 
-app.get "/api/accounts/me", api.accounts.get
-app.put "/api/accounts/me", api.accounts.put
-app.delete "/api/accounts/me", api.accounts.delete 
+app.get "/api/accounts/:id(*)", api.accounts.get
+app.put "/api/accounts/:id(*)", api.accounts.put
+app.delete "/api/accounts/:id(*)", api.accounts.delete 
 
 # define login routes for facebook
 routes.facebook_login('/auth',app)

@@ -9,7 +9,8 @@ data =
 
 module.exports = 
   get: (req,res)->
-    res.end wrapper data
+    log.info "data = {subscriptions: #{JSON.stringify data,null,2}}"
+    res.end wrapper subscriptions: data
 
   post: (req,res)->
     data.push req.body
