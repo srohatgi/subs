@@ -19,6 +19,7 @@ bootup = ()->
       console.log "logout called"
       status_view.remove()
       subscription_list_view.remove()
+      subscription_detail_view.remove()
       loggedout_view.show()
 
     logged_in: -> 
