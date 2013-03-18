@@ -8,7 +8,7 @@ SubscriptionDetailView = Backbone.View.extend
 	render: ()->
 		#console.log "inside the view collection = #{JSON.stringify @collection.toJSON(),null,2}"
 		@$el.empty()
-		@$el.html @template( { name: "Netflix", description: "Movie streaming service" } )
+		@$el.html @template( { name: "Netflix", description: "movie streaming service" } )
 		@
 
 subscription_detail_view = new SubscriptionDetailView 

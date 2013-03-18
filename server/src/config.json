@@ -1,10 +1,10 @@
 {
-	"port": {
-		"unsecure": (function() { return process.env.PORT || 3000; })(),
-		"secure": (function() { if (process.env.PORT) return 443; else return 3000+1; })()
-	},
-	"facebook": {
-		"shared_secret": process.env.FACEBOOK_APP_KEY,
-		"id": (function() { return process.env.FACEBOOK_APP_ID || 371900149592754; })()
-	}
+  "port": {
+    "unsecure": (function() { return process.env.PORT || 3000; })(),
+    "secure": (function() { if (process.env.PORT) return 443; else return 3000+1; })()
+  },
+  "facebook": {
+    "shared_secret": process.env.FACEBOOK_APP_KEY,
+    "id": (function() { return process.env.FACEBOOK_APP_ID || 371900149592754; })()
+  }
 }

@@ -7,12 +7,12 @@ data = [
  name: 'sumeet rohatgi'
  },
  {
- 	id: "2"
- 	name: 'nidhi rohatgi'
+  id: "2"
+  name: 'nidhi rohatgi'
  }
 ]
 
-find_data = (id)->	
+find_data = (id)->  
   for d in data
     return d if d.id == id 
   return null

@@ -4,11 +4,11 @@ kexec = require('kexec')
 make = spawn('make', [], { stdio: ['ignore',1,2] })
 
 make.on 'exit', (code)->
-	if code != 0
-  	process.exit code
-  	return
+  if code != 0
+    process.exit code
+    return
 
-	process.stderr.write "make passed!\n"
-	
-	kexec("#{process.execPath} server/lib/app.js")
+  process.stderr.write "make passed!\n"
+  
+  kexec("#{process.execPath} server/lib/app.js")
 
