@@ -65,7 +65,7 @@ https.createServer(
 
 # redirect all unsecure requests to https
 http.createServer (req,res)->
-  res.writeHead 301, {'Location': "https://#{req.headers.host.split(':')[0]}:#{config.port.secure}#{req.url}"}
+  res.writeHead 301, Location: "https://#{req.headers.host.split(':')[0]}:#{config.port.secure}#{req.url}"
   res.end()
 .listen config.port.unsecure
 

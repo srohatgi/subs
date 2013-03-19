@@ -1,30 +1,52 @@
 <form class="form-horizontal">
-  <p class="lead">{{name}}: a {{description}}</p>
+  <p class="lead"><strong>{{name}}</strong>: the {{description}}</p>
 
   <div class="control-group">
     <label class="control-label" for="userName">User</label>
     <div class="controls">
-      <input type="text" id="userName" placeholder="email">
+      <input type="text" id="userName" placeholder="email" value="{{username}}">
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="inputPassword">Password</label>
     <div class="controls">
-      <input type="password" id="inputPassword" placeholder="Password">
+      <input type="password" id="inputPassword" placeholder="password" value="{{password}}">
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="inputPassword2  ">Password</label>
+    <label class="control-label">Available plans</label>
     <div class="controls">
-      <input type="password" id="inputPassword2" placeholder="Password">
+      {{#each plans}}
+      <label class="checkbox inline">
+        <input type="checkbox" id="inlinecheckbox1" value="{{plan_id}}"> {{plan_name}}
+      </label>
+      {{/each}}
     </div>
   </div>
 
   <div class="control-group">
+    <label class="control-label">State</label>
     <div class="controls">
-      <button type="submit" class="btn">Sign in</button>
+      <label class="radio inline">
+        <input type="radio" id="inlineradio1" value="selected"> Start
+      </label>
+      {{#if is_started}}
+      <label class="radio inline disabled">
+        <input type="radio" id="inlineradio2" value="pause"> Pause
+      </label>
+      <label class="radio inline disabled">
+        <input type="radio" id="inlineradio3" value="end"> Stop
+      </label>
+      {{/if}}
+    </div>
+  </div>  
+
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">Cancel</button>
+      <button type="submit" class="btn btn-primary">Save</button>
     </div>
   </div>
 </form>
