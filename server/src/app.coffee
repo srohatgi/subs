@@ -32,7 +32,10 @@ app.configure ->
   app.use express.cookieParser()
   app.use express.bodyParser()
   app.use express.methodOverride()
-  app.use express.session secret: 'keyboard cat'   
+  app.use express.cookieSession 
+    secret: 'keyboard cat'
+    cookie: 
+      maxAge: 60 * 60 * 1000   
   app.use passport.initialize()
   app.use passport.session()
   app.all "/api/*", (req,res,next)->

@@ -12,7 +12,8 @@
     "winston": "0.6.2",
     "kexec": "latest",
     "passport": "latest",
-    "passport-facebook": "latest"
+    "passport-facebook": "latest",
+    "mongoose": "latest"
   },
   "engines": {
     "node": "0.8.2",

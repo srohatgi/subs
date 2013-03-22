@@ -1,5 +1,10 @@
 {log} = require '../appconfig'
-{wrapper,error_codes,set_header} = require './common_utils'
+{wrapper,error_codes,mongoose} = require './common_utils'
+
+accountSchema = mongoose.Schema
+  first_name: String 
+  last_name: String 
+  sex: String
 
 data = [
  { 
