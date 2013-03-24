@@ -1,21 +1,6 @@
 {log} = require '../appconfig'
 {wrapper,error_codes,mongoose} = require './common_utils'
-
-accountSchema = mongoose.Schema
-  first_name: String 
-  last_name: String 
-  sex: String
-
-data = [
- { 
- id: "1" 
- name: 'sumeet rohatgi'
- },
- {
-  id: "2"
-  name: 'nidhi rohatgi'
- }
-]
+accounts_db = require '../data/accounts_db'
 
 find_data = (id)->  
   for d in data
