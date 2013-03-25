@@ -1,7 +1,10 @@
-exports.mongoose = mongoose = require 'mongoose'
-{log} = require '../appconfig'
+mongoose = require 'mongoose'
+{config,log} = require '../appconfig'
 
-mongoose.connect('mongodb://localhost/mydb')
+mongoose.connect(config.mongodb.connection)
 db = mongoose.connection
 db.on 'error', log.error.bind console, 'connection error'
-db.once 'open', -> log.info "connected to mongodb!!"
+db.once 'open', -> log.info "connected to #{config.mongodb.connection}!!"
+
+exports.mongoose = mongoose
+exports.db = db

@@ -6,6 +6,8 @@ https = require("https")
 fs = require("fs")
 path = require("path")
 {log,config} = require("./appconfig")
+{mongoose,db} = require('./data/common_db_utils')
+util = require 'util'
 passport = require('passport')
 
 app = express()
@@ -27,22 +29,23 @@ app.configure ->
   app.set "view options",
     layout: false
 
-  app.use express.favicon "#{__dirname}/../public/favicon.ico"
   app.use express.logger log.accesslog
+  app.use express.favicon "#{__dirname}/../public/favicon.ico"
+  app.use express.static "#{__dirname}/../public"
   app.use express.cookieParser()
   app.use express.bodyParser()
   app.use express.methodOverride()
-  app.use express.cookieSession 
-    secret: 'keyboard cat'
-    cookie: 
-      maxAge: 60 * 60 * 1000   
+  
+  app.use express.cookieSession secret: 'awesome unicorns', cookie: maxAge: 30*60*60
+  
   app.use passport.initialize()
   app.use passport.session()
+  
   app.all "/api/*", (req,res,next)->
     res.header 'Content-Type', 'application/json'
     next()
+  
   app.use app.router
-  app.use express.static "#{__dirname}/../public"
 
 app.configure "development", -> app.use express.errorHandler()
 

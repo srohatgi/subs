@@ -39,6 +39,7 @@ build/node_modules: build/package.json
 	cd build; npm install
 
 build/package.json: package.json
+	mkdir -p build
 	cp -f $< $@
 
 clean: 
@@ -62,6 +63,7 @@ build/%.jpg: %.jpg
 ../server/public: 
 	mkdir -p ../server/public
 	cp -Rf ../vendor/initializr/* ../server/public
+	rm -f ../server/public/index.html
 
 ../server/public/css/default.css: default.less ../server/public
 	build/node_modules/less/bin/lessc -x $< > $@

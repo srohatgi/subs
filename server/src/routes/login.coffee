@@ -1,27 +1,25 @@
-{log,config} = require('../appconfig')
-passport = require('passport')
-FacebookStrategy = require('passport-facebook').Strategy;
+{log,config} = require '../appconfig'
+passport = require 'passport'
+{Strategy} = require 'passport-facebook'
+accounts_db = require '../data/accounts_db'
 
 passport.serializeUser (user, done)-> 
-  #log.info "user = #{user}"
-  done(null, user)
+  log.info "serialize user = #{user.facebook_id}"
+  done(null, user.facebook_id)
 
-passport.deserializeUser (obj, done)-> 
-  #log.info "obj = #{JSON.stringify(obj,null,2)}"
-  done(null, obj)
+passport.deserializeUser (facebook_id, done)-> 
+  log.info "deserialize facebook_id = #{facebook_id}"
+  accounts_db.get facebook_id: facebook_id, (err, user)-> done err, user
 
-passport.use new FacebookStrategy(
+passport.use new Strategy
   clientID: config.facebook.id,
   clientSecret: config.facebook.shared_secret,
   callbackURL: "https://localhost:#{config.port.secure}/auth/facebook/callback"
 , (accessToken, refreshToken, profile, done)->
-  #User.findOrCreate(..., function(err, user) {
-  #  if (err) { return done(err); }
-  #  done(null, user);
-  #});
-  log.info "accessToken: #{accessToken} profile: #{JSON.stringify profile._json}"
-  done null, profile._json
-)
+  profile._json.facebook_id = profile._json.id
+  delete profile._json.id
+  accounts_db.save profile._json, (err,obj)-> done err, profile._json
+
 
 module.exports = (route_prefix,app)->
   app.get "#{route_prefix}/facebook", passport.authenticate('facebook')

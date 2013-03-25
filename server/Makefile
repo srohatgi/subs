@@ -17,7 +17,7 @@ cleanall:
 	rm -rf lib
 	
 clean:
-	rm -rf lib
+	rm -rf lib public
 
 lib/%.js: src/%.coffee
 	coffee -o $(dir $@) $<
