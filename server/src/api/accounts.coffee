@@ -1,6 +1,6 @@
 {log} = require '../appconfig'
 {wrapper,error_codes,mongoose} = require './common_utils'
-accounts_db = require '../data/accounts_db'
+{accounts_db} = require '../data'
 
 find_data = (id)->  
   for d in data
