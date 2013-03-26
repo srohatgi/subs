@@ -36,7 +36,7 @@ app.configure ->
   app.use express.bodyParser()
   app.use express.methodOverride()
   
-  app.use express.cookieSession secret: 'hello', cookie: maxAge: 30*60*60
+  app.use express.cookieSession secret: 'hello', cookie: maxAge: 30*60*1000
   
   app.use passport.initialize()
   app.use passport.session()

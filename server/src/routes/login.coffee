@@ -14,7 +14,7 @@ passport.deserializeUser (facebook_id, done)->
 passport.use new Strategy
   clientID: config.facebook.id
   clientSecret: config.facebook.shared_secret
-  callbackURL: "https://localhost:#{config.port.secure}/auth/facebook/callback"
+  callbackURL: "https://#{config.facebook.server}:#{config.port.secure}/auth/facebook/callback"
   passReqToCallback: true
 , (req, accessToken, refreshToken, profile, done)->
   if not req.user 

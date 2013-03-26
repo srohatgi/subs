@@ -1,11 +1,12 @@
 {
   "port": {
     "unsecure": (function() { return process.env.PORT || 3000; })(),
-    "secure": (function() { if (process.env.PORT) return 443; else return 3000+1; })()
+    "secure": (function() { return process.env.PORT?'443':'3001'; })()
   },
   "facebook": {
     "shared_secret": process.env.FACEBOOK_APP_KEY,
-    "id": (function() { return process.env.FACEBOOK_APP_ID || 371900149592754; })()
+    "id": (function() { return process.env.FACEBOOK_APP_ID || 371900149592754; })(),
+    "server": (function() { return "localhost"; })()
   },
   "mongodb": {
     "connection": (function() { return process.env.MONGO_CONNECT || "mongodb://localhost/mydb"; })()
