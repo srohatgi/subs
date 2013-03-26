@@ -12,13 +12,17 @@ passport.deserializeUser (facebook_id, done)->
   accounts_db.get facebook_id: facebook_id, (err, user)-> done err, user
 
 passport.use new Strategy
-  clientID: config.facebook.id,
-  clientSecret: config.facebook.shared_secret,
+  clientID: config.facebook.id
+  clientSecret: config.facebook.shared_secret
   callbackURL: "https://localhost:#{config.port.secure}/auth/facebook/callback"
-, (accessToken, refreshToken, profile, done)->
-  profile._json.facebook_id = profile._json.id
-  delete profile._json.id
-  accounts_db.save profile._json, (err,obj)-> done err, profile._json
+  passReqToCallback: true
+, (req, accessToken, refreshToken, profile, done)->
+  if not req.user 
+    profile._json.facebook_id = profile._json.id
+    delete profile._json.id
+    accounts_db.save profile._json, (err,obj)-> done err, profile._json
+  else
+    done null, req.user
 
 
 module.exports = (route_prefix,app)->

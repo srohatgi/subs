@@ -1,7 +1,8 @@
 {log} = require '../appconfig'
 
 exports.wrapper = (payload={},err_code=error_codes.SUCCESS,message=error_codes["#{err_code}_message"])->
-  log.info "message: #{message} error: #{err_code}"
+  logmsg = "ret_code: #{err_code} message: #{message}"
+  if err_code is error_codes.SUCCESS then log.info logmsg else log.error logmsg
   JSON.stringify 
     error: err_code 
     message: message
