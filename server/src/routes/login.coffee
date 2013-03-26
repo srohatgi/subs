@@ -25,9 +25,9 @@ passport.use new Strategy
     done null, req.user
 
 
-module.exports = (route_prefix,app)->
-  app.get "#{route_prefix}/facebook", passport.authenticate('facebook')
+module.exports = 
+  facebook: passport.authenticate 'facebook'
 
-  app.get "#{route_prefix}/facebook/callback", passport.authenticate 'facebook', 
+  facebook_cb: passport.authenticate 'facebook', 
     successRedirect: '/#logged_in' 
     failureRedirect: '/#login'

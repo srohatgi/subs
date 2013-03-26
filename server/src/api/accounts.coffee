@@ -24,3 +24,5 @@ module.exports =
     log.info "logging out #{JSON.stringify req.user}"
     req.session.destroy() if req.session
     res.send wrapper()
+
+  post: (req,res)-> res.end {}

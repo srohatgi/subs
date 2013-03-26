@@ -23,3 +23,5 @@ module.exports =
         return res.end wrapper 
 
     res.end wrapper null, error_codes.NOT_FOUND, 'no such subscription exists'
+
+  delete: (req,res)-> res.end {}

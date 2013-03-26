@@ -1,14 +1,14 @@
-express = require("express")
-routes = require("./routes")
-api = require("./api")
-http = require("http")
-https = require("https")
-fs = require("fs")
-path = require("path")
-{log,config} = require("./appconfig")
-{mongoose,db} = require('./data/common_db_utils')
+express = require "express" 
+routes = require "./routes" 
+api = require "./api" 
+http = require "http" 
+https = require "https" 
+fs = require "fs" 
+path = require "path" 
+{log,config} = require "./appconfig" 
+{mongoose,db} = require './data/common_db_utils' 
 util = require 'util'
-passport = require('passport')
+passport = require 'passport' 
 
 app = express()
 
@@ -49,19 +49,18 @@ app.configure ->
 
 app.configure "development", -> app.use express.errorHandler()
 
+# app
 app.get "/", (req,res)-> 
   fs.createReadStream("#{__dirname}/../public/main-index.html").pipe(res)
 
-app.get "/api/subscriptions/:id(*)", api.subscriptions.get
-app.post "/api/subscriptions/:id(*)", api.subscriptions.post
-app.put "/api/subscriptions/:id(*)", api.subscriptions.put
+app.get "/auth/facebook", routes.login.facebook
 
-app.get "/api/accounts/:id(*)", api.accounts.get
-app.put "/api/accounts/:id(*)", api.accounts.put
-app.delete "/api/accounts/:id(*)", api.accounts.delete 
+app.get "/auth/facebook/callback", routes.login.facebook_cb
 
-# define login routes for facebook
-routes.facebook_login('/auth',app)
+# api
+for op in [ 'get', 'put', 'post', 'delete' ]
+  app[op] "/api/subscriptions/:id(*)", api.subscriptions[op]
+  app[op] "/api/accounts/:id(*)", api.accounts[op]
 
 https.createServer(
   key: fs.readFileSync "#{__dirname}/../cert/server.key", 'utf-8'
