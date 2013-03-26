@@ -10,11 +10,11 @@ data =
 module.exports = 
   get: (req,res)->
     log.info "data = {subscriptions: #{JSON.stringify data,null,2}}"
-    res.end wrapper subscriptions: data
+    res.send.apply res, wrapper subscriptions: data
 
   post: (req,res)->
     data.push req.body
-    res.end wrapper 
+    res.send.apply res, wrapper 
 
   put: (req,res)->
     for d in data 
@@ -22,6 +22,6 @@ module.exports =
         d[prop] = req.body[prop] for prop of req.body
         return res.end wrapper 
 
-    res.end wrapper null, error_codes.NOT_FOUND, 'no such subscription exists'
+    res.send.apply res, wrapper null, error_codes.NOT_FOUND, 'no such subscription exists'
 
-  delete: (req,res)-> res.end {}
+  delete: (req,res)-> res.send 200, {}
