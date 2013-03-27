@@ -5,6 +5,7 @@ ServicesSchema = mongoose.Schema
   name: String
   type: String
   description: String
+  plans: [{ plan_id: String, plan_name: String, plan_type: String }]
   create_date: Date
   update_date: Date
 
